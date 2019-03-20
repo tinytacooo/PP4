@@ -9,7 +9,9 @@
 #define HUFFMANTREE_H
 
 #include <map>
+#include <vector>
 
+#include "HeapQueue.hpp"
 #include "HuffmanBase.hpp"
 
 class HuffmanTree : public HuffmanTreeBase {
@@ -20,9 +22,9 @@ public:
   std::string serializeTree() const;
   std::string decompress(const std::string inputCode, const std::string serializeTree);
   /* Helper functions */
-  void determineFrequencies(const std::string input);
+  std::map<char, int> determineFrequencies(const std::string input);
+  HeapQueue<HuffmanNode*, HuffmanNode::Compare> insertFreqMap(std::map<char, int> freqMap);
 private:
-  std::map<char, int> characterFrequencies;     // character frequencies
   std::string compressed;
   std::string serialized;
 };

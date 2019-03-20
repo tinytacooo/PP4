@@ -12,11 +12,16 @@ HuffmanTree::HuffmanTree() {
 }
 
 HuffmanTree::~HuffmanTree() {
-    characterFrequencies.clear();
+    // characterFrequencies.clear();       // delete map
 }
 
 std::string HuffmanTree::compress(const std::string inputStr) {
-    determineFrequencies(inputStr);
+    HeapQueue<HuffmanNode*, HuffmanNode::Compare> H;
+    std::map<char, int> charFreq;
+
+    charFreq = determineFrequencies(inputStr);
+    H = insertFreqMap(charFreq);
+
     return "Done";
 }
 
@@ -33,13 +38,27 @@ std::string HuffmanTree::decompress(const std::string inputCode, const std::stri
  *  Helper functions
  */
 
-void HuffmanTree::determineFrequencies(const std::string input) {
+std::map<char, int> HuffmanTree::determineFrequencies(const std::string input) {
+    std::map<char, int> freqMap;
     std::map<char, int>::iterator mapIt;
 
     for (auto& c : input) {
-        if ((mapIt = characterFrequencies.find(c)) != characterFrequencies.end())
+        if ((mapIt = freqMap.find(c)) != freqMap.end())
             mapIt->second += 1;
         else
-            characterFrequencies[c] = 1;
+            freqMap[c] = 1;
     }
+
+    return freqMap;
+}
+
+HeapQueue<HuffmanNode*, HuffmanNode::Compare> HuffmanTree::insertFreqMap(std::map<char, int> freqMap) {
+    HeapQueue<HuffmanNode*, HuffmanNode::Compare> priorityQueue;
+
+    for (auto& mapIt : freqMap) {
+        HuffmanNode* h = new HuffmanNode(mapIt.first, mapIt.second);
+        priorityQueue.insert(h);
+    }
+
+    return priorityQueue;
 }
