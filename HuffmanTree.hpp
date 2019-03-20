@@ -23,8 +23,10 @@ public:
   std::string decompress(const std::string inputCode, const std::string serializeTree);
   /* Helper functions */
   std::map<char, int> determineFrequencies(const std::string input);
-  HeapQueue<HuffmanNode*, HuffmanNode::Compare> insertFreqMap(std::map<char, int> freqMap);
+  HeapQueue<HuffmanNode*, HuffmanNode::Compare> initializePriorityQueue(std::map<char, int> freqMap);
+  void postTraverseTree(const HuffmanNode* H);
 private:
+  HuffmanNode* sortedTree;
   std::string compressed;
   std::string serialized;
 };

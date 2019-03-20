@@ -16,11 +16,14 @@ HuffmanTree::~HuffmanTree() {
 }
 
 std::string HuffmanTree::compress(const std::string inputStr) {
-    HeapQueue<HuffmanNode*, HuffmanNode::Compare> H;
+    HeapQueue<HuffmanNode*, HuffmanNode::Compare> pQueue;
     std::map<char, int> charFreq;
 
     charFreq = determineFrequencies(inputStr);
-    H = insertFreqMap(charFreq);
+    pQueue = initializePriorityQueue(charFreq);
+    sortedTree = pQueue.min();
+
+    postTraverseTree(sortedTree);
 
     return "Done";
 }
@@ -52,7 +55,7 @@ std::map<char, int> HuffmanTree::determineFrequencies(const std::string input) {
     return freqMap;
 }
 
-HeapQueue<HuffmanNode*, HuffmanNode::Compare> HuffmanTree::insertFreqMap(std::map<char, int> freqMap) {
+HeapQueue<HuffmanNode*, HuffmanNode::Compare> HuffmanTree::initializePriorityQueue(std::map<char, int> freqMap) {
     HeapQueue<HuffmanNode*, HuffmanNode::Compare> priorityQueue;
 
     for (auto& mapIt : freqMap) {
@@ -60,5 +63,19 @@ HeapQueue<HuffmanNode*, HuffmanNode::Compare> HuffmanTree::insertFreqMap(std::ma
         priorityQueue.insert(h);
     }
 
+/* // test code to check whether priority queue was built correctly
+    while (!priorityQueue.empty()) {
+        HuffmanNode* h = priorityQueue.min();
+        char c = h->getCharacter();
+        int i = h->getFrequency();
+
+        std::cout << c << "\t" << i << "\n";
+        priorityQueue.removeMin();
+    }
+*/
     return priorityQueue;
+}
+
+void HuffmanTree::postTraverseTree(const HuffmanNode* H) {
+    std::cout << "HI";
 }
