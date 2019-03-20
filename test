@@ -9,7 +9,7 @@ const int CHAR_MAP_SIZE = 256;
 int main() {
     std::map<char, int> frequencyMap;
     std::map<char, int>::iterator mapIt;
-    std::string test = "I like a man in power.";
+    std::string test = "if a machine is expected to be infallible it cannot also be intelligent";
 
     for (auto& c : test) {
         if ((mapIt = frequencyMap.find(c)) != frequencyMap.end()) {
