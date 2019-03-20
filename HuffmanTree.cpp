@@ -21,7 +21,7 @@ std::string HuffmanTree::compress(const std::string inputStr) {
 
     charFreq = determineFrequencies(inputStr);
     pQueue = initializePriorityQueue(charFreq);
-    sortedTree = pQueue.min();
+    sortedTree = buildTree(pQueue);
 
     postTraverseTree(sortedTree);
 
@@ -76,6 +76,23 @@ HeapQueue<HuffmanNode*, HuffmanNode::Compare> HuffmanTree::initializePriorityQue
     return priorityQueue;
 }
 
-void HuffmanTree::postTraverseTree(const HuffmanNode* H) {
-    std::cout << "HI";
+HuffmanNode* HuffmanTree::buildTree(HeapQueue<HuffmanNode*, HuffmanNode::Compare>) {
+    HuffmanNode* H = new HuffmanNode('c', 2);
+    return H;
+}
+
+void HuffmanTree::postTraverseTree(HuffmanNode* H) {
+    HuffmanNode* t = H;
+    //while (t->isRoot()) {
+        std::cout << "ISROOT " << t->getCharacter() << std::endl;
+    //    t = t->parent;
+    //}
+
+    bool leaf = t->isLeaf();
+    bool branch = t->isBranch();
+    bool root = t->isRoot();
+    char c = t->getCharacter();
+    size_t f = t->getFrequency();
+
+    std::cout << leaf << " " << branch << " " << root << " " << c << " " << f << std::endl;
 }

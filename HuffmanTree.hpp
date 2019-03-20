@@ -24,7 +24,8 @@ public:
   /* Helper functions */
   std::map<char, int> determineFrequencies(const std::string input);
   HeapQueue<HuffmanNode*, HuffmanNode::Compare> initializePriorityQueue(std::map<char, int> freqMap);
-  void postTraverseTree(const HuffmanNode* H);
+  HuffmanNode* buildTree(HeapQueue<HuffmanNode*, HuffmanNode::Compare>);
+  void postTraverseTree(HuffmanNode* H);
 private:
   HuffmanNode* sortedTree;
   std::string compressed;
