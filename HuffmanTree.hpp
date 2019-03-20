@@ -27,9 +27,4 @@ private:
   std::string serialized;
 };
 
-/*
- *   compress:
- *     -
- */
-
 #endif /* HUFFMANTREE_H */
