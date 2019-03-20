@@ -76,8 +76,20 @@ HeapQueue<HuffmanNode*, HuffmanNode::Compare> HuffmanTree::initializePriorityQue
     return priorityQueue;
 }
 
-HuffmanNode* HuffmanTree::buildTree(HeapQueue<HuffmanNode*, HuffmanNode::Compare>) {
-    HuffmanNode* H = new HuffmanNode('c', 2);
+HuffmanNode* HuffmanTree::buildTree(HeapQueue<HuffmanNode*, HuffmanNode::Compare>& pQueue) {
+    HuffmanNode* H = pQueue.min();
+    HuffmanNode* r;
+    HuffmanNode* l;
+
+    while (!pQueue.empty()) {
+        HuffmanNode* h = pQueue.min();
+        char c = h->getCharacter();
+        int i = h->getFrequency();
+
+        std::cout << c << "\t" << i << "\n";
+        pQueue.removeMin();
+    }
+
     return H;
 }
 
