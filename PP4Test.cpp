@@ -37,7 +37,7 @@ TEST_CASE("Project 4 Test Cases for Huffman Coding") {
   SECTION("Should decompress the turing string") {
     REQUIRE(t.decompress(turingCode, turingTree) == turing);
   }
-/*
+
   // Dijkstra String Tests
   SECTION("Should compress the dijkstra string") {
     REQUIRE(t.compress(dijkstra) == dijkstraCode);
@@ -79,5 +79,5 @@ TEST_CASE("Project 4 Test Cases for Huffman Coding") {
   SECTION("Should decompress the constitution string") {
     REQUIRE(t.decompress(constitutionCode, constitutionTree) == constitution);
   }
- */
+ 
 }
