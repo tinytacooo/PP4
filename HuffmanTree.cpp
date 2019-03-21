@@ -37,7 +37,8 @@ std::string HuffmanTree::compress(const std::string inputStr) {
 }
 
 std::string HuffmanTree::serializeTree() const {
-    return "ret";
+    std::cout << serialized << std::endl;
+    return serialized;
 }
 
 std::string HuffmanTree::decompress(const std::string inputCode, const std::string serializeTree){
