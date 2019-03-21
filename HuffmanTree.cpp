@@ -29,18 +29,25 @@ std::string HuffmanTree::compress(const std::string inputStr) {
 }
 
 std::string HuffmanTree::serializeTree() const {
-    std::cout << serialized << std::endl;
     return serialized;
 }
 
 std::string HuffmanTree::decompress(const std::string inputCode, const std::string serializeTree){
-    std::map<std::string, char> decodedPrefixes;
+    std::map<std::string, char>::iterator it;
     std::string ret;
-    std::string temp;
+    std::string temp = "";
 
-    decodedPrefixes = decodePrefixes(serializeTree);
+    decodePrefixes(serializeTree);
 
-    return "done";
+    for (auto c : inputCode) {
+        temp += c;
+        if((it = decodedPrefixes.find(temp)) != decodedPrefixes.end()) {
+            ret += it->second;
+            temp.clear();
+        }
+    }
+
+    return ret;
 }
 
 
@@ -111,12 +118,10 @@ bool HuffmanTree::isLeft(HuffmanNode* H) {
 }
 
 void HuffmanTree::postOrder(HuffmanNode* H, bool choice) {
+
     if(H == NULL)
         return;
-/*
-    postOrder(H->left, true);
-    postOrder(H->right, true);
-*/
+
     if(choice == true) {
         postOrder(H->left, true);
         postOrder(H->right, true);
@@ -134,7 +139,8 @@ void HuffmanTree::postOrder(HuffmanNode* H, bool choice) {
         postOrder(H->left, false);
         postOrder(H->right, false);
         if(H->isLeaf()) {
-            std::cout << "LEAF: " << H->getCharacter() << std::endl;
+            std::string pre = getPrefix(H);
+            decodedPrefixes[pre] = H->getCharacter();
         }
     }
 }
@@ -159,7 +165,7 @@ std::string HuffmanTree::getPrefix(HuffmanNode* H) {
  *  Decompression functions
  */
 
- std::map<std::string, char> HuffmanTree::decodePrefixes(std::string code) {
+void HuffmanTree::decodePrefixes(std::string code) {
      std::map<std::string, char> ret;
      std::vector<HuffmanNode*> nodes;
      char g = '!';
@@ -181,16 +187,9 @@ std::string HuffmanTree::getPrefix(HuffmanNode* H) {
              r->parent = H;
              l->parent = H;
              nodes.push_back(H);
-
-             //postOrder(H);    //remove
-             //std::cout << std::endl;
-             //std::cout << "   " << H->getCharacter() << "\n " << H->left->getCharacter() << "   " << H->right->getCharacter();
          }
      }
 
-     HuffmanNode *H = nodes.back(); //remove
-     postOrder(H, false);    //remove
-     std::cout << std::endl;
-
-     return ret;
+     HuffmanNode* H = nodes.back();
+     postOrder(H, false);
  }

@@ -30,13 +30,15 @@ public:
   HuffmanNode* buildTree(HeapQueue<HuffmanNode*, HuffmanNode::Compare>& pQueue);
   void postOrder(HuffmanNode* H, bool choice);
   /* Decompression functions */
-  std::map<std::string, char> decodePrefixes(std::string code);
-  void traverseDecodedTree(HuffmanNode* H);
+  void decodePrefixes(std::string code);
 private:
+  /* for compression  */
   HuffmanNode* sortedTree;
   std::map<char, std::string> prefixCodes;
   std::string compressed;
   std::string serialized;
+  /* for decompression */
+  std::map<std::string, char> decodedPrefixes;
 };
 
 #endif /* HUFFMANTREE_H */
