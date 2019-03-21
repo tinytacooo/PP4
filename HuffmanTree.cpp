@@ -25,6 +25,12 @@ std::string HuffmanTree::compress(const std::string inputStr) {
 
     postOrder(sortedTree, "root  parent ");
 
+/* // remove; check prefix codes
+    for (auto it : prefixCodes) {
+        std::cout << "\n" << it.first << " " << it.second;
+    }
+*/
+
     return "Done";
 }
 
@@ -63,16 +69,6 @@ HeapQueue<HuffmanNode*, HuffmanNode::Compare> HuffmanTree::initializePriorityQue
         priorityQueue.insert(h);
     }
 
-/* // test code to check whether priority queue was built correctly
-    while (!priorityQueue.empty()) {
-        HuffmanNode* h = priorityQueue.min();
-        char c = h->getCharacter();
-        int i = h->getFrequency();
-
-        std::cout << c << "\t" << i << "\n";
-        priorityQueue.removeMin();
-    }
-*/
     return priorityQueue;
 }
 
@@ -96,9 +92,6 @@ HuffmanNode* HuffmanTree::buildTree(HeapQueue<HuffmanNode*, HuffmanNode::Compare
         r->parent = H;
         H->left  = l;
         H->right = r;
-
-        // check if node was built correctly
-        // std::cout << "     " << H->getCharacter() << " " << H->getFrequency() << "\n " << l->getCharacter() << " " << l->getFrequency() << "   " << r->getCharacter() << " "<< r->getFrequency() << std::endl;
 
         pQueue.insert(H);
     }
