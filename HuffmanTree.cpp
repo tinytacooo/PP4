@@ -23,7 +23,7 @@ std::string HuffmanTree::compress(const std::string inputStr) {
     pQueue = initializePriorityQueue(charFreq);
     sortedTree = buildTree(pQueue);
 
-    postOrder(sortedTree, "root  parent ");
+    postOrder(sortedTree);
 
 /* // remove; check prefix codes
     for (auto it : prefixCodes) {
@@ -31,7 +31,9 @@ std::string HuffmanTree::compress(const std::string inputStr) {
     }
 */
 
-    return "Done";
+    compressText(inputStr);
+
+    return compressed;
 }
 
 std::string HuffmanTree::serializeTree() const {
@@ -46,6 +48,12 @@ std::string HuffmanTree::decompress(const std::string inputCode, const std::stri
 /*
  *  Helper functions
  */
+
+ void HuffmanTree::compressText(std::string inputStr) {
+     for (auto& c : inputStr) {
+         compressed  += prefixCodes[c];
+     }
+ }
 
 std::map<char, int> HuffmanTree::determineFrequencies(const std::string input) {
     std::map<char, int> freqMap;
@@ -99,18 +107,24 @@ HuffmanNode* HuffmanTree::buildTree(HeapQueue<HuffmanNode*, HuffmanNode::Compare
     return H;
 }
 
-void HuffmanTree::postOrder(HuffmanNode* H, std::string s) {
+void HuffmanTree::postOrder(HuffmanNode* H) {
     if(H == NULL)
         return;
 
     std::map<char, int> prefix;
 
-    postOrder(H->left, "left  parent ");
-    postOrder(H->right, "right parent ");
+    postOrder(H->left);
+    postOrder(H->right);
 
     if(H->isLeaf()) {
         std::string pre = getPrefix(H);
         prefixCodes[H->getCharacter()] = pre;
+
+        serialized += "L";
+        serialized += H->getCharacter();
+    }
+    else {
+        serialized += "B";
     }
 
 }
@@ -131,8 +145,5 @@ std::string HuffmanTree::getPrefix(HuffmanNode* H) {
 }
 
 bool HuffmanTree::isLeft(HuffmanNode* H) {
-    if (H == H->parent->left)
-        std::cout << "ISLEFTCALLED " << H->getCharacter() << " is left\n";
-    else std::cout << "ISLEFTCALLED " << H->getCharacter() << " is right\n";
     return (H == H->parent->left);
 }

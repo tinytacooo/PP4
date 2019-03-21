@@ -22,12 +22,13 @@ public:
   std::string serializeTree() const;
   std::string decompress(const std::string inputCode, const std::string serializeTree);
   /* Helper functions */
+  void compressText(std::string inputStr);
   std::map<char, int> determineFrequencies(const std::string input);
   std::string getPrefix(HuffmanNode* H);
   HeapQueue<HuffmanNode*, HuffmanNode::Compare> initializePriorityQueue(std::map<char, int> freqMap);
   bool isLeft(HuffmanNode* H);
   HuffmanNode* buildTree(HeapQueue<HuffmanNode*, HuffmanNode::Compare>& pQueue);
-  void postOrder(HuffmanNode* H, std::string s);
+  void postOrder(HuffmanNode* H);
 private:
   HuffmanNode* sortedTree;
   std::map<char, std::string> prefixCodes;
