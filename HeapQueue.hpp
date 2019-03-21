@@ -5,11 +5,11 @@ template <typename E>
 class VectorCompleteTree
 {
 private:
-  std::vector<E> V; 
+  std::vector<E> V;
 public:
   typedef typename std::vector<E>::iterator Position;
 protected:
-  Position pos(int i) 
+  Position pos(int i)
   {
     return V.begin() + i;
   }

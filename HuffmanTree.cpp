@@ -23,7 +23,7 @@ std::string HuffmanTree::compress(const std::string inputStr) {
     pQueue = initializePriorityQueue(charFreq);
     sortedTree = buildTree(pQueue);
 
-    postTraverseTree(sortedTree);
+    postOrder(sortedTree, "root  parent ");
 
     return "Done";
 }
@@ -77,34 +77,69 @@ HeapQueue<HuffmanNode*, HuffmanNode::Compare> HuffmanTree::initializePriorityQue
 }
 
 HuffmanNode* HuffmanTree::buildTree(HeapQueue<HuffmanNode*, HuffmanNode::Compare>& pQueue) {
-    HuffmanNode* H = pQueue.min();
-    HuffmanNode* r;
+    HuffmanNode* H;
     HuffmanNode* l;
+    HuffmanNode* r;
 
-    while (!pQueue.empty()) {
-        HuffmanNode* h = pQueue.min();
-        char c = h->getCharacter();
-        int i = h->getFrequency();
+    char g = 0;
 
-        std::cout << c << "\t" << i << "\n";
+    while (pQueue.size() > 1) {
+        l = pQueue.min();
         pQueue.removeMin();
+        r = pQueue.min();
+        pQueue.removeMin();
+
+        size_t f = l->getFrequency() + r->getFrequency();
+
+        H = new HuffmanNode(g, f);
+        l->parent = H;
+        r->parent = H;
+        H->left  = l;
+        H->right = r;
+
+        // check if node was built correctly
+        // std::cout << "     " << H->getCharacter() << " " << H->getFrequency() << "\n " << l->getCharacter() << " " << l->getFrequency() << "   " << r->getCharacter() << " "<< r->getFrequency() << std::endl;
+
+        pQueue.insert(H);
     }
 
     return H;
 }
 
-void HuffmanTree::postTraverseTree(HuffmanNode* H) {
-    HuffmanNode* t = H;
-    //while (t->isRoot()) {
-        std::cout << "ISROOT " << t->getCharacter() << std::endl;
-    //    t = t->parent;
-    //}
+void HuffmanTree::postOrder(HuffmanNode* H, std::string s) {
+    if(H == NULL)
+        return;
 
-    bool leaf = t->isLeaf();
-    bool branch = t->isBranch();
-    bool root = t->isRoot();
-    char c = t->getCharacter();
-    size_t f = t->getFrequency();
+    std::map<char, int> prefix;
 
-    std::cout << leaf << " " << branch << " " << root << " " << c << " " << f << std::endl;
+    postOrder(H->left, "left  parent ");
+    postOrder(H->right, "right parent ");
+
+    if(H->isLeaf()) {
+        std::string pre = getPrefix(H);
+        prefixCodes[H->getCharacter()] = pre;
+    }
+
+}
+
+std::string HuffmanTree::getPrefix(HuffmanNode* H) {
+    if(H->parent == NULL)
+        return "";
+
+    std::string ret = "";
+    ret += getPrefix(H->parent);
+
+    if(isLeft(H))
+        ret += "0";
+    else
+        ret += "1";
+
+    return ret;
+}
+
+bool HuffmanTree::isLeft(HuffmanNode* H) {
+    if (H == H->parent->left)
+        std::cout << "ISLEFTCALLED " << H->getCharacter() << " is left\n";
+    else std::cout << "ISLEFTCALLED " << H->getCharacter() << " is right\n";
+    return (H == H->parent->left);
 }
