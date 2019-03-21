@@ -16,8 +16,8 @@
 
 class HuffmanTree : public HuffmanTreeBase {
 public:
-  HuffmanTree();        // constructor; does nothing
-  ~HuffmanTree();       // destructor; recursively destroys all nodes
+  HuffmanTree();
+  ~HuffmanTree();
   std::string compress(const std::string inputStr);
   std::string serializeTree() const;
   std::string decompress(const std::string inputCode, const std::string serializeTree);
